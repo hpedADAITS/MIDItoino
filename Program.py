@@ -1,9 +1,12 @@
 # Latest Program ver
+# Fixed file path resolving: Assuming you have Arduino IDE 2 
+# Tested on Windows 10 with Arduino IDE 2.3.4
 
 import mido
 import tkinter as tk
 from tkinter import filedialog, simpledialog
 import os
+import sys
 import subprocess
 
 NOTE_NAMES = {
@@ -17,6 +20,10 @@ NOTE_NAMES = {
     84: "C7", 85: "Db7", 86: "D7", 87: "Eb7", 88: "E7", 89: "F7", 90: "Gb7", 91: "G7", 92: "Ab7", 93: "A7", 94: "Bb7", 95: "B7",
     96: "C8", 97: "Db8", 98: "D8", 99: "Eb8"
 }
+
+local_app_data = os.environ.get('LOCALAPPDATA')
+if local_app_data:
+    arduino_path = os.path.join(local_app_data, "Programs", "arduino-ide", "Arduino IDE.exe")
 
 def midi_to_arduino(midi_file, output_dir, bpm, start_time=0, end_time=None):
     if not os.path.exists(output_dir):
@@ -110,7 +117,17 @@ void MIDI()
         f.write("}")
     
     print(f"Arduino code written to {output_file}")
-    subprocess.run([r"C:\Users\Usuario\Desktop\Arduino IDE\Arduino IDE.exe", output_file], check=True)
+    subprocess.run([arduino_path], check=True)
+
+if sys.platform == "win32":
+    arduino_path = arduino_path
+elif sys.platform == "darwin":
+    arduino_path = "/Applications/Arduino.app"
+elif sys.platform == "linux" or sys.platform == "linux2":
+    arduino_path = "/usr/bin/arduino"
+else:
+    raise OSError("Unsupported platform")
+
 
 def open_file_dialog():
     root = tk.Tk()
