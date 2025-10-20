@@ -1,6 +1,6 @@
 # **MIDItoArduino**
 
-A Python program that converts MIDI files into an Arduino-readable syntax, enabling users to play custom monophonic melodies on the built-in buzzer using a combination of the Open Smart Rich Shield and Arduino UNO boards.
+A short Python program that converts MIDI files into an Arduino-readable syntax, enabling users to play custom monophonic melodies on the built-in buzzer using a combination of the Open Smart Rich Shield and Arduino UNO boards.
 
 ## **Description**
 
